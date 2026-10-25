@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devops-platform
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/hamidgurmani/devops-platform.git
+    targetRevision: main
+    path: helm/devops-platform
+    helm:
+      releaseName: devops-platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
